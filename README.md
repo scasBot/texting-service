@@ -25,7 +25,7 @@ To run the app locally, first clone this repository and `cd` into its directory.
     - If using vanilla [virtualenv](https://virtualenv.pypa.io/en/latest/):
 
         ```bash
-        $ virtualenv venv
+        $ virtualenv -p /usr/bin/python2.7 venv
         $ source venv/bin/activate
         ```
 
