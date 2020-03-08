@@ -1,17 +1,7 @@
-<a href="https://www.twilio.com">
-  <img src="https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg" alt="Twilio" width="250" />
-</a>
+# SCAS Client Texting Service
 
-# Twilio's Appointment Reminders with Flask
+A web app that programatically follows up with clients within a specified time frame!
 
-[![Build Status](https://travis-ci.org/TwilioDevEd/appointment-reminders-flask.svg?branch=master)](https://travis-ci.org/TwilioDevEd/appointment-reminders-flask)
-[![Coverage Status](https://coveralls.io/repos/TwilioDevEd/appointment-reminders-flask/badge.svg?branch=master&service=github)](https://coveralls.io/github/TwilioDevEd/appointment-reminders-flask?branch=master)
-
-Use Twilio to send SMS reminders to your customers about upcoming appointments.
-Learn how appointment reminders help other companies in
-[these Twilio customer stories](https://www.twilio.com/use-cases/appointment-reminders).
-
-[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/appointment-reminders/python/flask)!
 
 ## Quickstart
 
@@ -21,7 +11,7 @@ This project is built using the [Flask](http://flask.pocoo.org/) web framework. 
 
 To run the app locally, first clone this repository and `cd` into its directory. Then:
 
-1. Create a new virtual environment:
+1. Create a new virtual environment with Python 2.7:
     - If using vanilla [virtualenv](https://virtualenv.pypa.io/en/latest/):
 
         ```bash
@@ -41,9 +31,9 @@ To run the app locally, first clone this repository and `cd` into its directory.
     $ pip install -r requirements.txt
     ```
 
-1. Start a local PostgreSQL database and create a database called `appointments`:
-    - If on a Mac, we recommend [Postgres.app](http://postgresapp.com/). After install, open psql and run `CREATE DATABASE appointments;`
-    - If Postgres is already installed locally, you can just run `createdb appointments` from a terminal
+1. Start a local PostgreSQL database and create a database called `clients`:
+    - If on a Mac, we recommend [Postgres.app](http://postgresapp.com/). After install, open psql and run `CREATE DATABASE clients;`
+    - If Postgres is already installed locally, you can just run `createdb clients` from a terminal
 
 1. Copy the `.env_example` file to `.env`, and edit it to include your credentials for the Twilio API (found at https://www.twilio.com/user/account/voice) and your local Postgres database
 1. Run `source .env` to apply the environment variables (or even better, use [autoenv](https://github.com/kennethreitz/autoenv))
@@ -97,4 +87,4 @@ You can then view the results with `coverage report` or build an HTML report wit
 
 * No warranty expressed or implied. Software is as is. Diggity.
 * [MIT License](http://www.opensource.org/licenses/mit-license.html)
-* Lovingly crafted by Twilio Developer Education.
+* This repo was built based off of the Twilio [appointment reminders tutorial](https://www.twilio.com/docs/tutorials/walkthrough/appointment-reminders/python/flask)
