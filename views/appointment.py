@@ -89,19 +89,19 @@ class ResponseResource(View):
         body = request.values.get('Body', None)
         from_number = request.values.get('From')
 
-        yes_message = "Okay, we'll follow up in 1 week! In the meantime, please feel free to contact us by phone or email (617-497-5690/masmallclaims@gmail.com) with any questions or updates."
-        no_message = "send survey, thanks"
-        other_message = "please respond with Y/N"
+        yes_message = "Okay, we'll follow up in 1 week! In the meantime, please feel free to contact us by phone or email (617-497-5690 or masmallclaims@gmail.com) with any questions or updates."
+        no_message = "No problem! In order to help us improve our services, we would appreciate your response to this survey: https://forms.gle/yvBnmuomKigivxnW7. If you do need additional help, please contact us by phone or email (617-497-5690 or masmallclaims@gmail.com)."
+        other_message = "Please respond with yes or no."
 
         resp = MessagingResponse()
 
         if body and (body.lower()=='y' or body.lower()=='yes'):
             resp.message(yes_message)
-            # set survey to no
+            # todo: set survey attribute to no
 
         elif body and (body.lower()=='n' or body.lower()=='no'):
             resp.message(no_message)
-            # set survey to yes and in future call method to administer survey
+            # set survey attribute to yes and in future call method to administer survey
 
         else:
             resp.message(other_message)

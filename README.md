@@ -48,6 +48,11 @@ To run the app locally, first clone this repository and `cd` into its directory.
 
 1. Start a [redis](http://redis.io/) server to be our Celery broker. If on a Mac, we recommend installing redis through [homebrew](http://brew.sh/)
 
+    ```bash
+    $ brew install redis
+    $ redis-server
+    ```
+
 1. Start the development server:
 
     ```bash
@@ -55,11 +60,11 @@ To run the app locally, first clone this repository and `cd` into its directory.
     ```
 
 You can now access the application at
-[http://localhost:5000](http://localhost:5000). To send any reminders, however,
+[http://localhost:5000](http://localhost:5000). To send any follow-ups, however,
 you must also start a separate Celery worker process.
 
 
-1. Start a new terminal session, `cd` into the repository, and active your
+1. Start a new terminal session, `cd` into the repository, and activate your
    `appointment-reminders` virtualenv
 
 1. Start the Celery worker:
@@ -70,6 +75,13 @@ you must also start a separate Celery worker process.
 
 Celery will now send SMS reminders for any new appointments you create through
 the web app.
+
+1. Start an [ngrok](https://ngrok.com/download) tunnel in a new tab:
+
+    ```bash
+    $ ./ngrok http 5000
+    ```
+This tool makes our application, which is currently just running locally on our computer, accessible over the internet. In order to respond to incoming texts, we need to forward requests to our development environment, and that's what ngrok allows us to do. If needed, update the address on the Twilio console to the forwarding address [here](https://www.twilio.com/console/phone-numbers) by clicking the phone number and changing the messaging webhook.
 
 ## Run the tests
 
