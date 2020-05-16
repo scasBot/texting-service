@@ -1,15 +1,13 @@
 from flask.views import MethodView, View
 from flask import render_template, request
 from models.appointment import Client
-from forms.new_appointment import NewAppointmentForm
-from twilio.twiml.messaging_response import MessagingResponse
+from forms.new_appointment import NewClientForm
 from flask import request, redirect, url_for
 import reminders
 import arrow
 
 
-
-class AppointmentResourceDelete(MethodView):
+class ClientResourceDelete(MethodView):
 
     def post(self, id):
         appt = reminders.db.session.query(Client).filter_by(id=id).one()
@@ -17,94 +15,68 @@ class AppointmentResourceDelete(MethodView):
         reminders.db.session.flush()
         reminders.db.session.commit()
 
-        return redirect(url_for('appointment.index'), code=303)
+        return redirect(url_for('client.index'), code=303)
 
 
-class AppointmentResourceCreate(MethodView):
+class ClientResourceCreate(MethodView):
 
     def post(self):
-        form = NewAppointmentForm(request.form)
+        form = NewClientForm(request.form)
 
         if form.validate():
-            from tasks import send_sms_followup
-
-            # appt = Appointment(
-            #     name=form.data['name'],
-            #     phone_number=form.data['phone_number'],
-            #     delta=form.data['delta'],
-            #     time=form.data['time'],
-            #     timezone=form.data['timezone']
-            # )
+            from tasks import send_initial_sms, send_sms_followup
 
             client = Client(
-                client_id = form.data['client_id'],
+                client_id=form.data['client_id'],
                 name=form.data['name'],
                 phone_number=form.data['phone_number'],
                 delta=form.data['delta'],
-                survey = form.data['survey'],
+                survey=form.data['survey'],
+                initial_contact=True,
                 time=form.data['time'],
                 timezone=form.data['timezone']
             )
 
-            # appt.time = arrow.get(appt.time, appt.timezone).to('utc').naive
-
-            # for attr in dir(client):
-            #     if hasattr( client, attr ):
-            #         print( "client.%s = %s" % (attr, getattr(client, attr)))
-
-            # print(client.clientId)
+            client.time = arrow.get(client.time, client.timezone).to('utc').naive
 
             reminders.db.session.add(client)
             reminders.db.session.flush()
             reminders.db.session.commit()
-            # send_sms_reminder.apply_async(
-            #     args=[appt.id], eta=appt.get_notification_time())
 
-            send_sms_followup(client.id)
-            return redirect(url_for('appointment.index'), code=303)
+            send_initial_sms(client.id)
+
+            send_sms_followup.apply_async(
+                args=[client.id], eta=client.get_followup_time())
+
+            return redirect(url_for('client.index'), code=303)
         else:
-            return render_template('appointments/new.html', form=form), 400
+            return render_template('clients/new.html', form=form), 400
 
 
-class AppointmentResourceIndex(MethodView):
+class ClientResourceIndex(MethodView):
 
     def get(self):
         all_clients = reminders.db.session.query(Client).all()
-        return render_template('appointments/index.html',
+        return render_template('clients/index.html',
                                clients=all_clients)
 
 
-class AppointmentFormResource(MethodView):
+class ClientFormResource(MethodView):
 
     def get(self):
-        form = NewAppointmentForm()
-        return render_template('appointments/new.html', form=form)
+        form = NewClientForm()
+        return render_template('clients/new.html', form=form)
+
 
 class ResponseResource(View):
-    
     methods = ['GET', 'POST']
 
     ''' Dynamically respond to incoming messages based on state of client '''
+
     def dispatch_request(self):
+        from tasks import response_handler
+        # todo: store country code in database
+        # trim the country code from the string
+        from_number = request.values.get('From')[2:]
         body = request.values.get('Body', None)
-        from_number = request.values.get('From')
-
-        yes_message = "Okay, we'll follow up in 1 week! In the meantime, please feel free to contact us by phone or email (617-497-5690 or masmallclaims@gmail.com) with any questions or updates."
-        no_message = "No problem! In order to help us improve our services, we would appreciate your response to this survey: https://forms.gle/yvBnmuomKigivxnW7. If you do need additional help, please contact us by phone or email (617-497-5690 or masmallclaims@gmail.com)."
-        other_message = "Please respond with yes or no."
-
-        resp = MessagingResponse()
-
-        if body and (body.lower()=='y' or body.lower()=='yes'):
-            resp.message(yes_message)
-            # todo: set survey attribute to no
-
-        elif body and (body.lower()=='n' or body.lower()=='no'):
-            resp.message(no_message)
-            # set survey attribute to yes and in future call method to administer survey
-
-        else:
-            resp.message(other_message)
-            # only do this twice, then ask them to call (put in spanish and englishN)
-
-        return str(resp)
+        return response_handler(from_number, body)

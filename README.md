@@ -1,6 +1,6 @@
 # SCAS Client Texting Service
 
-A web app that programatically follows up with clients within a specified time frame!
+A web app that programmatically follows up with clients within a specified time frame!
 
 
 ## Quickstart
@@ -81,7 +81,7 @@ the web app.
     ```bash
     $ ./ngrok http 5000
     ```
-This tool makes our application, which is currently just running locally on our computer, accessible over the internet. In order to respond to incoming texts, we need to forward requests to our development environment, and that's what ngrok allows us to do. If needed, update the address on the Twilio console to the forwarding address [here](https://www.twilio.com/console/phone-numbers) by clicking the phone number and changing the messaging webhook.
+This tool makes our application, which is currently just running locally on our computer, accessible over the internet. In order to respond to incoming texts, we need to forward requests to our development environment, and that's what ngrok allows us to do. Update the address on the Twilio console to the forwarding address displayed in the terminal (should be in the form https://bb0fa28a.ngrok.io/sms) [here](https://www.twilio.com/console/phone-numbers) by clicking the phone number and changing the messaging webhook.
 
 ## Run the tests
 

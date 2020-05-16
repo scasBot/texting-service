@@ -3,10 +3,10 @@ import flask_sqlalchemy
 
 from celery import Celery
 from views.appointment import (
-    AppointmentFormResource,
-    AppointmentResourceCreate,
-    AppointmentResourceDelete,
-    AppointmentResourceIndex,
+    ClientFormResource,
+    ClientResourceCreate,
+    ClientResourceDelete,
+    ClientResourceIndex,
     ResponseResource,
 )
 
@@ -20,11 +20,11 @@ class Route(object):
 
 
 handlers = [
-    Route('/', 'appointment.index', AppointmentResourceIndex),
-    Route('/appointment', 'appointment.create', AppointmentResourceCreate),
-    Route('/appointment/<int:id>/delete',
-          'appointment.delete', AppointmentResourceDelete),
-    Route('/appointment/new', 'appointment.new', AppointmentFormResource),
+    Route('/', 'client.index', ClientResourceIndex),
+    Route('/client', 'client.create', ClientResourceCreate),
+    Route('/client/<int:id>/delete',
+          'client.delete', ClientResourceDelete),
+    Route('/client/new', 'client.new', ClientFormResource),
     Route('/sms', 'sendsms', ResponseResource)
 ]
 

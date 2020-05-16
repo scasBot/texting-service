@@ -8,17 +8,20 @@
   <p>This web application demos how we can use a texting service to follow up with clients.</p>
 
   <p>
-    <a class="btn btn-primary btn-xs" href="/appointment/new">Add a new client</a>
+    <a class="btn btn-primary btn-xs" href="/client/new">Add a new client</a>
     to see how it works!
   </p>
 
   {% if clients %}
   <table class="table">
     <thead>
+      <th>Client ID</th>
       <th>Name</th>
       <th>Phone number</th>
-      <th>Appointment time</th>
-      <th>Reminder time</th>
+      <th>Last Contact Time</th>
+      <th>Survey?</th>
+      <th>Initial Contact?</th>
+      <th>Follow Up Time</th>
       <th>Timezone</th>
       <th>Actions</th>
     </thead>
@@ -30,10 +33,11 @@
           <td>{{ client.phone_number }}</td>
           <td>{{ client.time }}</td>
           <td>{{ client.survey }}</td>
+          <td>{{ client.initial_contact }}</td>
           <td>{{ client.delta }}</td>
           <td>{{ client.timezone }}</td>
           <td>
-            <form method="POST" action="{{url_for('appointment.delete', id=client.id) }}">
+            <form method="POST" action="{{url_for('client.delete', id=client.id) }}">
               <button type="submit" class="btn btn-danger btn-xs">Delete</button>
             </form>
           </td>
@@ -43,7 +47,7 @@
   </table>
   {% else %}
     <div class="well">
-      There are no appointment reminders scheduled.
+      There are no clients in the database.
     </div>
   {% endif %}
 
