@@ -2,7 +2,7 @@ import six
 import datetime
 
 from base_test import BaseTest
-from models.appointment import Appointment
+from models.client import Appointment
 from tasks import send_sms_reminder
 
 if six.PY3:

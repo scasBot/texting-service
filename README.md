@@ -73,7 +73,7 @@ you must also start a separate Celery worker process.
     $ celery -A reminders.celery worker -l info
     ```
 
-Celery will now send SMS reminders for any new appointments you create through
+Celery will now send SMS reminders for any new clients you add through
 the web app.
 
 1. Start an [ngrok](https://ngrok.com/download) tunnel in a new tab:

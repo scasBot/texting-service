@@ -1,5 +1,5 @@
 import unittest
-from models.appointment import Appointment
+from models.client import Appointment
 
 
 class BaseTest(unittest.TestCase):

@@ -1,5 +1,5 @@
 from reminders import celery, db, app
-from models.appointment import Client as c
+from models.client import Client as c
 from sqlalchemy.orm.exc import NoResultFound
 from twilio.rest import Client
 import arrow

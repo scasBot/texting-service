@@ -1,7 +1,7 @@
 import datetime
 
 from base_test import BaseTest
-from models.appointment import Appointment
+from models.client import Appointment
 
 
 class AppointmentTest(BaseTest):

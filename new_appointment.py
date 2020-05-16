@@ -11,7 +11,7 @@ def _timezones():
 appointment_times = [(t, t + " minutes") for t in ['15', '30', '45', '60']]
 
 
-class NewAppointmentForm(FlaskForm):
+class NewClientForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     phone_number = StringField('Phone number', validators=[
                                DataRequired(), Length(min=6)])

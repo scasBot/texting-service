@@ -2,7 +2,7 @@ import flask
 import flask_sqlalchemy
 
 from celery import Celery
-from views.appointment import (
+from views.client import (
     ClientFormResource,
     ClientResourceCreate,
     ClientResourceDelete,

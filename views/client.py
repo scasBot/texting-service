@@ -1,7 +1,7 @@
 from flask.views import MethodView, View
 from flask import render_template, request
-from models.appointment import Client
-from forms.new_appointment import NewClientForm
+from models.client import Client
+from forms.new_client import NewClientForm
 from flask import request, redirect, url_for
 import reminders
 import arrow
